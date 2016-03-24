@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Omnipointment</title>
+		<title>IIT Pizza</title>
 		<link rel="stylesheet" type="text/css" href="style/reset.css">
 		<link rel="stylesheet" type="text/css" href="style/main.css">
 		<!--<link rel="icon" type="img/png" href="style/favicon.png" style="width:30px;">-->
 		<!-- IMPORTED SCRIPTS -->
 		<!-- NEED GOOGLE FONTS LATER -->
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<!-- NEED FIREBASE LATER -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
 		<style>
 
 
@@ -18,19 +18,56 @@
 
 	<body>
 
-		<h1>Omnipointment @ Wildhacks</h1>
-		<h2>Intelligent group scheduling solutions for all.</h2>
-		<h3>Built on HTML/CSS/JS/Firebase</h3>
-		<p>We're better than When2Meet and Doodle combined:</p>
+		<h1>Does you want pizza?</h1>
+		<input id="a-number" type="text" placeholder="Your A Number">
+		<label>
+			<div class="order-button">Yes</div>
+			<input type="radio" id="order-yes" name="order" value="true">
+		</label>
+		<label>
+			<div class="order-button">No</div>
+			<input type="radio" id="order-no" name="order" value="false">
+		</label>
+
+		<h1>How about the rest of the class?</h1>
 		<ul>
-			<li>Quick and dirty scheduling.</li>
-			<li>Help fill out your meeting requests faster.</li>
-			<li>Intuitive user experience.</li>
+			<li>There are <span id="span-orders"></span> other people who want to order.</li>
+			<li>Each person will get <span id="span-slice"></span> slices.</li>
+			<li>Each person will pay $<span id="span-price"></span>.</li>
 		</ul>
+		
+
+
+		<script src="main.js"></script>
 
 		<script type="text/javascript">
 
-			
+			var saveID = sessionStorage.getItem('id');
+			var saveOrder = JSON.parse(sessionStorage.getItem('order'));
+			if(saveID && (saveOrder !== null)){
+				document.getElementById('a-number').value = saveID;
+				if(saveOrder){
+					document.getElementById('order-yes').checked = true;
+				}
+				else{
+					document.getElementById('order-no').checked = true;
+				}
+			}
+			else{
+				document.getElementById('order-no').checked = true;
+			}
+
+			getRoomStatus();
+
+			$('input[name="order"]').change(function(e){
+				var order = JSON.parse(document.querySelector('input[name="order"]:checked').value);
+				var id = document.getElementById('a-number').value.toLowerCase();
+				sessionStorage.setItem('id', id);
+				sessionStorage.setItem('order', order);
+				if(id.length === 8 || (id.length === 9 && id[0] === 'a')){
+					updateOrder(ROOM, id, order);
+				}
+			});
 
 			console.log("LOADED MAIN");
 
