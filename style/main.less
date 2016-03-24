@@ -12,7 +12,8 @@
 /*---> FONTS <--------------------------------*/
 /*--------------------------------------------*/
 
-@textSize: 3vh;
+@vh: 6.5px;
+@textSize: 3 * @vh;
 
 .HeadFont(){
 	font-family: sans-serif;
@@ -96,7 +97,33 @@ body{
 /*---> STRUCTURE <----------------------------*/
 /*--------------------------------------------*/
 
+input[type="text"]{
+	height: 4 * @vh;
+	line-height: 4 * @vh;
+	font-size: 3 * @vh;
+	width: 90%;
+	padding: 2.5%;
+	margin: 2.5%;
+	background: orange;
+}
 
+input[type=radio]{
+	display: none;
+}
+
+div.order-button{
+	display: inline-block;
+	width: 25%;
+	padding: 2.5%;
+	margin: 2.5%;
+	background: orange;
+}
+
+input:checked + div.order-button{
+	
+		background: green;
+	
+}
 
 /*--------------------------------------------*/
 /*---> HEADER & FOOTER <----------------------*/
